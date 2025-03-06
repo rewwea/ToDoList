@@ -1,17 +1,18 @@
 const express = require('express')
-const { PrismaClient } = require('@prisma/client')
 const cors = require('cors')
-const authRoutes = require('./routes/auth')
-const taskRoutes = require('./routes/tasks')
+const authRoutes = require('./routes/authRoutes')
+const taskRoutes = require('./routes/taskRoutes')
+const errorHandler = require('./middleware/errorHandler')
 
 const app = express()
-const prisma = new PrismaClient()
 
 app.use(cors())
 app.use(express.json())
-
-app.use('/auth', authRoutes)
-app.use('/tasks', taskRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/tasks', taskRoutes)
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
-app.listen(PORT, () => console.log(`Server on port ${PORT}`))
+app.listen(PORT, () => {
+	console.log(`Server running on port ${PORT}`)
+})
