@@ -1,0 +1,11 @@
+{
+  "overrides": [
+    {
+      "files": ["**/*.d.ts"],
+      "rules": {
+        "import/no-unused-modules": "off",
+        "no-unused-vars": "off"
+      }
+    }
+  ]
+}
