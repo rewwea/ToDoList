@@ -1,20 +1,33 @@
-body {
-	font-family: Arial, sans-serif;
-	background-color: #f4f4f4;
-	margin: 0;
-	padding: 0;
-}
-h1 {
+.container {
+	max-width: 500px;
+	margin: auto;
+	padding: 20px;
 	text-align: center;
 }
-form {
+.form {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-	width: 300px;
 }
 input,
 button {
 	padding: 10px;
 	font-size: 16px;
+}
+.error {
+	color: red;
+}
+.task {
+	border: 1px solid #ddd;
+	padding: 10px;
+	margin: 5px;
+}
+.task.todo {
+	background: lightgray;
+}
+.task.in_progress {
+	background: lightblue;
+}
+.task.done {
+	background: lightgreen;
 }

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import useAuthStore from '../store/authStore'
 
 export default function LoginPage() {
@@ -26,24 +26,10 @@ export default function LoginPage() {
 	}
 
 	return (
-		<div
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				height: '100vh',
-			}}
-		>
-			<form
-				onSubmit={handleLogin}
-				style={{
-					padding: '20px',
-					border: '1px solid black',
-					borderRadius: '5px',
-				}}
-			>
+		<div className='container'>
+			<form className='form' onSubmit={handleLogin}>
 				<h2>Вход</h2>
-				{error && <p style={{ color: 'red' }}>{error}</p>}
+				{error && <p className='error'>{error}</p>}
 				<input
 					type='text'
 					placeholder='Логин'
@@ -59,6 +45,9 @@ export default function LoginPage() {
 					required
 				/>
 				<button type='submit'>Войти</button>
+				<p>
+					Нет аккаунта? <Link to='/register'>Зарегистрироваться</Link>
+				</p>
 			</form>
 		</div>
 	)

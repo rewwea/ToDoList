@@ -3,25 +3,29 @@ const { hashPassword, comparePasswords } = require('../utils/bcrypt.util')
 const { generateToken } = require('../utils/jwt.util')
 
 exports.registerUser = async (req, res) => {
-	const { login, password, firstName, lastName, patronymic } = req.body
+	try {
+		const { login, password, firstName, lastName, middleName } = req.body
 
-	const existingUser = await User.findUnique({ where: { login } })
-	if (existingUser) {
-		return res.status(400).json({ error: 'Логин занят' })
-	}
+		const existingUser = await User.findUnique({ where: { login } })
+		if (existingUser) {
+			return res.status(400).json({ error: 'Логин уже занят' })
+		}
 
-	const hashedPassword = await hashPassword(password)
-	const user = await User.create({
-		data: {
+		const hashedPassword = await hashPassword(password)
+
+		const user = await User.create({
 			login,
 			password: hashedPassword,
 			firstName,
 			lastName,
-			patronymic,
-		},
-	})
+			middleName: middleName || null,
+		})
 
-	res.status(201).json({ id: user.id, login: user.login })
+		res.status(201).json({ message: 'Регистрация успешна', user })
+	} catch (error) {
+		console.error('Ошибка при регистрации:', error)
+		res.status(500).json({ error: 'Ошибка регистрации' })
+	}
 }
 
 exports.loginUser = async (req, res) => {
@@ -38,5 +42,6 @@ exports.loginUser = async (req, res) => {
 	}
 
 	const token = generateToken(user.id)
-	res.cookie('token', token, { httpOnly: true }).json({ message: 'Успешно' })
+	res.cookie('token', token, { httpOnly: true })
+	res.json({ message: 'Успешно', token })
 }

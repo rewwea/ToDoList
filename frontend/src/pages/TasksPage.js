@@ -5,6 +5,7 @@ import useAuthStore from '../store/authStore'
 export default function TasksPage() {
 	const [tasks, setTasks] = useState([])
 	const user = useAuthStore(state => state.user)
+	const logout = useAuthStore(state => state.logout)
 
 	useEffect(() => {
 		axios
@@ -14,16 +15,17 @@ export default function TasksPage() {
 	}, [])
 
 	return (
-		<div>
+		<div className='container'>
 			<h1>Задачи</h1>
 			{user && (
 				<p>
 					Вы вошли как {user.firstName} {user.lastName}
 				</p>
 			)}
+			<button onClick={logout}>Выйти</button>
 			<ul>
 				{tasks.map(task => (
-					<li key={task.id}>
+					<li key={task.id} className={`task ${task.status.toLowerCase()}`}>
 						<h2>{task.title}</h2>
 						<p>Приоритет: {task.priority}</p>
 						<p>Статус: {task.status}</p>
